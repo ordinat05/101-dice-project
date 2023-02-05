@@ -8,16 +8,28 @@ class RollDice extends Component {
 		sides: ["one", "two", "three", "four", "five", "six"]
 	}
 
-	state = { dice1: "one", dice2: "two" }
+	state = { dice1: "one", dice2: "two", rolling: false }
+	roll = () => {
+		const newDice1 = this.props.sides[Math.floor(Math.random() * this.props.sides.length)]
+		const newDice2 = this.props.sides[Math.floor(Math.random() * this.props.sides.length)]
+		this.setState({ dice1: newDice1, dice2: newDice2, rolling: true })
+		setTimeout(() => {
+			this.setState({ rolling: false })
+
+		}, 1000)
+	}
 
 	render() {
 		return (
 			<div className='RollDice'>
+				🍀 This Component RollDice.jsx
 				<div className='RollDice-container'>
-					<Dice face={this.state.dice1} />
-					<Dice face={this.state.dice2} />
+					<Dice face={this.state.dice1} rolling={this.state.rolling} />
+					<Dice face={this.state.dice2} rolling={this.state.rolling} />
 				</div>
-				<button>SHAKE</button>
+				<button onClick={this.roll} disabled={this.state.rolling}>
+					{this.state.rolling ? "Hooop..." : "SHAKE"}
+				</button>
 			</div>
 		)
 	}
